@@ -1,6 +1,6 @@
 #  [![Build Status](https://secure.travis-ci.org/pingjiang/itpub-crawler.png?branch=master)](http://travis-ci.org/pingjiang/itpub-crawler)
 
-> itpub crawler
+> [ITPUB](http://www.itpub.net/forum-61-1.html) 附件下载神器
 
 
 ## Getting Started
@@ -8,8 +8,24 @@
 Install the module with: `npm install itpub-crawler`
 
 ```js
-var crawler = require('itpub-crawler');
-crawler.awesome(); // "awesome"
+var config = require('../itpub.json');
+var ITPubClient = require('../lib/itpub-crawler.js');
+var client = new ITPubClient(config);
+
+console.log('Parsing ...');
+
+client.listForumThreads(null, function(err, results) {
+  if (err) {
+    throw err;
+  }
+  
+  results.forEach(function(result) {
+    console.log('%s - %s', result.link.href, result.link.text);
+    result.links.forEach(function(link) {
+      console.log('    %s - %s', link.href, link.text);
+    });
+  });
+});
 ```
 
 Install with cli command
@@ -30,7 +46,18 @@ $ grunt browserify
 
 ## Documentation
 
-_(Coming soon)_
+支持从文件读取链接：
+
+```
+http://www.itpub.net/forum-61-1.html
+
+# 精华
+
+http://www.itpub.net/forum.php?mod=forumdisplay&fid=61&filter=typeid&typeid=385&page=[1-7]
+
+# thread页面
+
+```
 
 
 ## Examples
