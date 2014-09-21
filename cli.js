@@ -3,7 +3,21 @@
 'use strict';
 
 function showUsage() {
-  return console.log('Usage: itpub <cmd> [url|keywords]');
+  var usage = [
+    'Usage: itpub <cmd> [url|keywords]',
+    '    -h                     Show usage',
+    '    --help                 Show usage',
+    '    -v                     Show version',
+    '    -version               Show version',
+    '    ls  <url> <only>       List thread',
+    '    list  <url> <only>     Show forum threads',
+    '    listfrom  <filepath> <only> Show forum threads from file',
+    '    search  <keywords>     Search forum threads',
+    '    threads                Total threads',
+    '    typeid  <typeid>       Show pages of threads filtered by typeid',
+    ''
+  ];
+  return console.log(usage.join('\n'));
 }
 
 function showVersion() {
@@ -11,7 +25,12 @@ function showVersion() {
 }
 
 
-var ITPubClient = require('./lib/itpub-crawler');
+var ITPubClient;
+try {
+  ITPubClient = require('itpub-crawler');
+} catch(e) {
+  ITPubClient = require('./lib/itpub-crawler');
+}
 var config = require('./itpub.json');
 var client = new ITPubClient(config);
 var args = process.argv;

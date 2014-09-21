@@ -1,4 +1,4 @@
-#  [![Build Status](https://secure.travis-ci.org/pingjiang/itpub-crawler.png?branch=master)](http://travis-ci.org/pingjiang/itpub-crawler)
+#  [ITPUB](http://www.itpub.net/forum-61-1.html) 附件下载神器 [![Build Status](https://secure.travis-ci.org/pingjiang/itpub-crawler.png?branch=master)](http://travis-ci.org/pingjiang/itpub-crawler)
 
 > [ITPUB](http://www.itpub.net/forum-61-1.html) 附件下载神器
 
@@ -11,21 +11,6 @@ Install the module with: `npm install itpub-crawler`
 var config = require('../itpub.json');
 var ITPubClient = require('../lib/itpub-crawler.js');
 var client = new ITPubClient(config);
-
-console.log('Parsing ...');
-
-client.listForumThreads(null, function(err, results) {
-  if (err) {
-    throw err;
-  }
-  
-  results.forEach(function(result) {
-    console.log('%s - %s', result.link.href, result.link.text);
-    result.links.forEach(function(link) {
-      console.log('    %s - %s', link.href, link.text);
-    });
-  });
-});
 ```
 
 Install with cli command
@@ -33,16 +18,21 @@ Install with cli command
 ```sh
 $ npm install -g itpub-crawler
 $ itpub --help
+
+Usage: itpub <cmd> [url|keywords]
+    -h                     Show usage
+    --help                 Show usage
+    -v                     Show version
+    -version               Show version
+    ls  <url> <only>       List thread
+    list  <url> <only>     Show forum threads
+    listfrom  <filepath> <only> Show forum threads from file
+    search  <keywords>     Search forum threads
+    threads                Total threads
+    typeid  <typeid>       Show pages of threads filtered by typeid
+      
 $ itpub --version
 ```
-
-
-```sh
-# creates a browser.js
-$ grunt browserify
-```
-
-
 
 ## Documentation
 
@@ -62,7 +52,24 @@ http://www.itpub.net/forum.php?mod=forumdisplay&fid=61&filter=typeid&typeid=385&
 
 ## Examples
 
-_(Coming soon)_
+### 列出forum所有thread中的附件
+
+```
+console.log('Parsing ...');
+
+client.listForumThreads(null, function(err, results) {
+  if (err) {
+    throw err;
+  }
+  
+  results.forEach(function(result) {
+    console.log('%s - %s', result.link.href, result.link.text);
+    result.links.forEach(function(link) {
+      console.log('    %s - %s', link.href, link.text);
+    });
+  });
+});
+```
 
 
 ## Contributing
