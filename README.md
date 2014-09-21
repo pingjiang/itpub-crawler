@@ -5,7 +5,31 @@
 
 ## Getting Started
 
-Install the module with: `npm install itpub-crawler`
+安装: `npm install itpub-crawler`
+
+配置： `itpub config username "your name" password "your password"`
+
+使用： `itpub list "http://www.itpub.net/forum-61-1.html" true > itpub.links.txt`
+
+下载文件里面的链接： `itpub listfrom threads.txt`
+
+```
+#支持hash注释
+http://www.itpub.net/forum-61-1.html
+# 会自动忽略空行
+#自动展开范围表示的链接
+http://www.itpub.net/forum.php?mod=forumdisplay&fid=61&filter=typeid&typeid=385&page=[1-7]
+```
+
+*注意：*
+
+* 如果链接比较多，会需要很长时间，所以最好将结果重定向到某个文件。
+* 可以使用`JDownloader`下载全部链接。只需要将链接全部拷贝到内存，JDownloader就会自动识别所有下载链接了。
+* 最后一个参数true表示只显示附件链接，专门用于JDownloader下载使用。
+* 所有链接支持http://www.itpub.net/forum-61-[1-1789].html范围，会自动展开。
+
+
+## 用做模块调用
 
 ```js
 var config = require('../itpub.json');
@@ -13,7 +37,7 @@ var ITPubClient = require('../lib/itpub-crawler.js');
 var client = new ITPubClient(config);
 ```
 
-Install with cli command
+## 命令行调用
 
 ```sh
 $ npm install -g itpub-crawler
@@ -33,22 +57,6 @@ Usage: itpub <cmd> [url|keywords]
       
 $ itpub --version
 ```
-
-## Documentation
-
-支持从文件读取链接：
-
-```
-http://www.itpub.net/forum-61-1.html
-
-# 精华
-
-http://www.itpub.net/forum.php?mod=forumdisplay&fid=61&filter=typeid&typeid=385&page=[1-7]
-
-# thread页面
-
-```
-
 
 ## Examples
 
