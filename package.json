@@ -1,6 +1,6 @@
 {
   "name": "itpub-crawler",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "lib/itpub-crawler.js",
   "description": "itpub crawler",
   "homepage": "https://github.com/pingjiang",

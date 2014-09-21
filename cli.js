@@ -2,6 +2,13 @@
 
 'use strict';
 
+var fs = require('fs');
+var path = require('path');
+var args = process.argv;
+var cmd = args[2];
+var cfgFile = '.itpub.json';
+var cfgPath = path.join(process.env.HOME, cfgFile);
+
 function showUsage() {
   var usage = [
     'Usage: itpub <cmd> [url|keywords]',
@@ -9,6 +16,7 @@ function showUsage() {
     '    --help                 Show usage',
     '    -v                     Show version',
     '    -version               Show version',
+    '    config                 username=<username> password="<password>"',
     '    ls  <url> <only>       List thread',
     '    list  <url> <only>     Show forum threads',
     '    listfrom  <filepath> <only> Show forum threads from file',
@@ -24,23 +32,46 @@ function showVersion() {
   return console.log(require('./package').version);
 }
 
+function loadConfig(cfgPath) {
+  try {
+    return require(cfgPath);
+  } catch(e) {
+    return {};
+  }
+}
 
-var ITPubClient;
+function setConfig() {
+  var kvs = args.slice(3);
+  var cfg = loadConfig(cfgPath);
+  for (var i = 0; i < kvs.length; i+=2) {
+    cfg[kvs[i]] = kvs[i+1];
+  }
+  fs.writeFileSync(cfgPath, JSON.stringify(cfg));
+  return cfg;
+}
+
+var ITPubClient, config, client;
 try {
   ITPubClient = require('itpub-crawler');
+  config = loadConfig(cfgPath);
 } catch(e) {
   ITPubClient = require('./lib/itpub-crawler');
+  config = require('./itpub.json');
 }
-var config = require('./itpub.json');
-var client = new ITPubClient(config);
-var args = process.argv;
-var cmd = args[2];
+
+try {
+  client = new ITPubClient(config);
+} catch(e) {
+  console.error('Invalid username or password.\nplease use itpub config username=<username> password="<password>"');
+  process.exit(-1);
+}
 
 var handlers = {
   '-h': showUsage,
   '--help': showUsage,
   '-v': showVersion,
   '--version': showVersion,
+  'config': setConfig,
   'ls': function() {
     var url = args[3];
     var onlyAttachments = args[4];
