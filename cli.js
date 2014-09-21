@@ -17,6 +17,7 @@ function showUsage() {
     '    -v                     Show version',
     '    -version               Show version',
     '    config                 username=<username> password="<password>"',
+    '    showconfig             Show config in ~/.itpub.json',
     '    ls  <url> <only>       List thread',
     '    list  <url> <only>     Show forum threads',
     '    listfrom  <filepath> <only> Show forum threads from file',
@@ -62,8 +63,10 @@ try {
 try {
   client = new ITPubClient(config);
 } catch(e) {
-  console.error('Invalid username or password.\nplease use itpub config username=<username> password="<password>"');
-  process.exit(-1);
+  if (cmd !== 'config') {
+    console.error('Invalid username or password.\nplease use itpub config username=<username> password="<password>"');
+    process.exit(-1);
+  }
 }
 
 var handlers = {
@@ -72,6 +75,10 @@ var handlers = {
   '-v': showVersion,
   '--version': showVersion,
   'config': setConfig,
+  'showconfig': function() {
+    var cfg = loadConfig(cfgPath);
+    console.log('Config: %s', JSON.stringify(cfg));
+  },
   'ls': function() {
     var url = args[3];
     var onlyAttachments = args[4];
