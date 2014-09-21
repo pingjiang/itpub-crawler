@@ -1,8 +1,5 @@
 #  [ITPUB](http://www.itpub.net/forum-61-1.html) 附件下载神器 [![Build Status](https://secure.travis-ci.org/pingjiang/itpub-crawler.png?branch=master)](http://travis-ci.org/pingjiang/itpub-crawler)
 
-> [ITPUB](http://www.itpub.net/forum-61-1.html) 附件下载神器
-
-
 ## Getting Started
 
 安装: `npm install itpub-crawler`
@@ -13,6 +10,7 @@
 
 下载文件里面的链接： `itpub listfrom threads.txt`
 
+threads.txt
 ```
 #支持hash注释
 http://www.itpub.net/forum-61-1.html
