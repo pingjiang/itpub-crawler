@@ -16,7 +16,7 @@ function showUsage() {
     '    --help                 Show usage',
     '    -v                     Show version',
     '    -version               Show version',
-    '    config                 username=<username> password="<password>"',
+    '    config username "your name" password "your password"   set config',
     '    showconfig             Show config in ~/.itpub.json',
     '    ls  <url> <only>       List thread',
     '    list  <url> <only>     Show forum threads',
@@ -64,7 +64,7 @@ try {
   client = new ITPubClient(config);
 } catch(e) {
   if (cmd !== 'config') {
-    console.error('Invalid username or password.\nplease use itpub config username=<username> password="<password>"');
+    console.error('Invalid username or password.\nitpub config username "your name" password "your password"');
     process.exit(-1);
   }
 }
