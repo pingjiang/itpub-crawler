@@ -20,4 +20,17 @@ describe('itpub-crawler node module.', function() {
     var urls = client.expandUrl('http://www.itpub.net/forum-61-[1-1732].html');
     assert(urls.length > 0);
   });
+  
+  // pages of thread
+  // http://www.itpub.net/thread-1890323-1-1.html
+  // => 
+  // http://www.itpub.net/thread-1890323-1-1.html
+  
+  // http://www.itpub.net/thread-1890250-1-1.html
+  // =>
+  // http://www.itpub.net/thread-1890250-[1-3]-1.html
+  
+  // http://www.itpub.net/thread-1761680-1-1.html
+  // =>
+  // http://www.itpub.net/thread-1761680-[1-291]-1.html
 });

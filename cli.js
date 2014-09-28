@@ -69,6 +69,31 @@ try {
   }
 }
 
+function showResult(result, onlyAttachments) {
+  if (!result.links || result.links.length === 0) {
+    return;
+  }
+  console.log(' <li data-href="%s" data-text="%s">', onlyAttachments ? result.link.href : '', result.link.text);
+  console.log('  <ul>');
+  result.links.forEach(function(link) {
+    console.log('   <li><a href="%s">%s</a></li>', link.href, link.text);
+  });
+  console.log('  </ul>');
+  console.log(' </li>');
+}
+
+function showResults(results, onlyAttachments) {
+  if (!results || results.length === 0) {
+    return;
+  }
+  
+  console.log('<ul>');
+  results.forEach(function(result) {
+    showResult(result, onlyAttachments);
+  });
+  console.log('</ul>');
+}
+
 var handlers = {
   '-h': showUsage,
   '--help': showUsage,
@@ -81,59 +106,38 @@ var handlers = {
   },
   'ls': function() {
     var url = args[3];
-    var onlyAttachments = args[4];
+    var onlyAttachments = args[4] || true;
     console.log('Listing attachments ...');
     client.listThread(url, function(err, results) {
       if (err) {
         throw err;
       }
   
-      results.forEach(function(result) {
-        if (!onlyAttachments) {
-          console.log('%s - %s', result.link.href, result.link.text);
-        }
-        result.links.forEach(function(link) {
-          console.log('    %s - %s', link.href, link.text);
-        });
-      });
+      showResults(results, onlyAttachments);
     });
   },  
   'list': function() {
     var url = args[3];
-    var onlyAttachments = args[4];
+    var onlyAttachments = args[4] || true;
     console.log('Listing forum ...');
     client.listForumThreads(url, function(err, results) {
       if (err) {
         throw err;
       }
   
-      results.forEach(function(result) {
-        if (!onlyAttachments) {
-          console.log('%s - %s', result.link.href, result.link.text);
-        }
-        result.links.forEach(function(link) {
-          console.log('    %s - %s', link.href, link.text);
-        });
-      });
+      showResults(results, onlyAttachments);
     });
   },
   'listfrom': function() {
     var filepath = args[3];
-    var onlyAttachments = args[4];
+    var onlyAttachments = args[4] || true;
     console.log('Listing from file ...');
     client.listForumThreadsFromFiles(filepath, function(err, results) {
       if (err) {
         throw err;
       }
   
-      results.forEach(function(result) {
-        if (!onlyAttachments) {
-          console.log('%s - %s', result.link.href, result.link.text);
-        }
-        result.links.forEach(function(link) {
-          console.log('    %s - %s', link.href, link.text);
-        });
-      });
+      showResults(results, onlyAttachments);
     });
   },
   'search': function() {
